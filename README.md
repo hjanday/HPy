@@ -8,6 +8,9 @@ HPy is a small discord bot I made for my own discord server. It was made using P
 - BeautifulSoup4 - ```pip install bs4```
 
 
+![Bot in Action](https://i.imgur.com/lCulwtU.jpg)
+
+
 ________________________________________________________________________________________________________________________________________
 
 # Feel free to fork the repo and make some additions to the bot! 
