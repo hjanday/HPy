@@ -5,12 +5,15 @@ import requests
 from discord.ext import commands
 from datetime import date,datetime
 import calendar
+import sys
+import os
 
 client = discord.Client()
 client = commands.Bot(command_prefix= 'h!')
 
 magicwords = ["It is certain.", "For sure.", "Without a doubt.", "Most likely.", "Signs point to yes.", "Ask again later.", "Better not tell you now.", " Cannot predict now.",  "Nope, ain't gonna happen", "Haha, that's funny", "No way", "Maybe"]
 
+t = open("TOKEN.txt", "r").read()
 
 @client.event
 async def on_ready():
@@ -131,25 +134,6 @@ async def shutdown(context):
     await client.change_presence(activity=discord.Game(name='Currently Offline'), status=discord.Status.do_not_disturb)
 
 
-#Moderation Commands
-@client.command()
-@commands.has_any_role('insert role')
-async def delmsg (context, userarg):
-    await context.channel.purge(limit = int(userarg))
-
-
-@client.command()
-@commands.has_any_role('insert role')
-async def kickuser(context, user: discord.Member, *, userarg):
-    await user.kick(reason = userarg)
-    await context.send(f'Kicked {user.mention}')
-
-
-@client.command()
-@commands.has_any_role('insert role')
-async def banuser(context, user: discord.Member, *, userarg):
-    await user.ban(reason = userarg)
-    await context.send(f'Banned {user.mention}')
 
 
 @client.command()
@@ -162,6 +146,12 @@ async def getboing(context, user:discord.Member, userarg):
             await context.send(f'Pinged,  {user.mention}')
 
 
-
-
-client.run("your token goes here")
+for each_cog in os.listdir('.//cogs'):
+    if each_cog.endswith(".py"):
+        try:
+            each_cog = f"cogs.{each_cog.replace('.py', '')}"
+            client.load_extension(each_cog)
+        except Exception as ec:
+            print(f"{each_cog} cannot be added, please fix")
+            raise ec
+client.run(t)
